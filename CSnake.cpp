@@ -1,3 +1,12 @@
+/* 
+ *
+ *파일 이름 : CSnake.cpp
+ 작성자 : https://www.codeproject.com/Articles/85531/Snake-Game-in-a-Win-Console
+ 목적: 뱀이 벽과 충돌하지 않고 사과를 먹는 게임
+
+
+ 2017. 05.25. 수정사항 : 배경과 사과 아스키코드 수정 - soyoungJeong */
+
 
 
 #include "CSnake.h"
@@ -100,7 +109,7 @@ void CSnake::Game_Main()
 		//box(1,1,78,24,Green,White,"");
 		clrbox(centerX-1,centerY-1,cols+centerX,rows+centerY,Green);
 		box(centerX-1,centerY-1,cols+centerX,rows+centerY,Green,White,"");
-		setcolor(color_normal);printf("%c",177);
+		setcolor(color_normal);printf("%c",'o');
 		for(i=0;i<=cols+1;i++)
 		{
 			for(j=0;j<=rows+1;j++)
@@ -112,9 +121,9 @@ void CSnake::Game_Main()
 				(centerY+j-1==(rows+centerY)))
 				{
 					setcolor(color_border);
-					printf("%c",178);
+					printf("%c",' ');
 				}
-				else printf("%c",177);
+				else printf("%c",' ');
 				setcolor(color_background);
 			}
 		}
@@ -165,7 +174,7 @@ void CSnake::Game_Main()
 	   {
 	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) Create_Apples();
 	   }
-	   gotoxy(randomX,randomY); printf("%d",7);
+	   gotoxy(randomX,randomY); printf("%c",'O');
 	   if(score==1)getch();
 	}
 	/***************************
@@ -380,7 +389,7 @@ void CSnake::Game_Main()
 	****************************/
 	void CSnake::Display()
 	{
-	   setcolor(1);
+	   setcolor(0);
 	   for(i=0;i<=70;i++)
 	   {
 	      for(j=0;j<=23;j++)
