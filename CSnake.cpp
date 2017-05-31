@@ -28,7 +28,6 @@
 		color_snake=2;  //  colors
 		snake_Enlongment=5;
 		apple=0;      //  apple
-		level=1;
 		if (prvSnake>200  || prvSnake<0) prvSnake=5;
 		centerX=39-(cols/2);
 		centerY=14-(rows/2);
@@ -46,6 +45,7 @@
 
 void CSnake::Game_Main()
 {
+	level=1;
     Settings();
 	game_Canvas();
 	Create_Apples();
@@ -58,6 +58,53 @@ void CSnake::Game_Main()
       Check_Apples();
       check_Snake_Location();
       Display_snake();
+	  Display_state();
+	  CalclateFramesPerSecond();
+      ;
+
+   }while((c!=27) && (x!=centerX+(cols)) && (x!=centerX-1) && (y!=centerY+(rows)) && (y!=centerY-1));Game_Over();
+
+}
+
+void CSnake::Game_Main2()
+{
+	level=2;
+    Settings();
+	game_Canvas2();
+	Create_Apples();
+	initsnake();
+	if (prvSnake>200  || prvSnake<0) prvSnake=5;
+
+   do{
+	   keyPressed();
+      check_collision();
+      Check_Apples();
+      check_Snake_Location2();
+      Display_snake();
+	  Display_state();
+	  CalclateFramesPerSecond();
+      ;
+
+   }while((c!=27) && (x!=centerX+(cols)) && (x!=centerX-1) && (y!=centerY+(rows)) && (y!=centerY-1));Game_Over();
+
+}
+
+void CSnake::Game_Main3()
+{
+	level=3;
+    Settings();
+	game_Canvas3();
+	Create_Apples();
+	initsnake();
+	if (prvSnake>200  || prvSnake<0) prvSnake=5;
+
+   do{
+	   keyPressed();
+      check_collision();
+      Check_Apples();
+      check_Snake_Location3();
+      Display_snake();
+	  Display_state();
 	  CalclateFramesPerSecond();
       ;
 
@@ -74,7 +121,6 @@ void CSnake::Game_Main()
 		setcolor(color_normal);
 		rows=15;
 		cols=60;
-		level=1;
 		srand(time(NULL));
 		centerX=39-(cols/2);
 		centerY=14-(rows/2);
@@ -100,7 +146,7 @@ void CSnake::Game_Main()
 		//box(1,1,78,24,Green,White,"");
 		clrbox(centerX-1,centerY-1,cols+centerX,rows+centerY,Green);
 		box(centerX-1,centerY-1,cols+centerX,rows+centerY,Green,White,"");
-		setcolor(color_normal);printf("%c",177);
+		setcolor(color_normal);printf("%c",'o');
 		for(i=0;i<=cols+1;i++)
 		{
 			for(j=0;j<=rows+1;j++)
@@ -111,10 +157,64 @@ void CSnake::Game_Main()
 				(centerY+j==centerY)||
 				(centerY+j-1==(rows+centerY)))
 				{
-					setcolor(color_border);
-					printf("%c",178);
+					setcolor(1);
+					printf("%c", ' ');
 				}
-				else printf("%c",177);
+				else printf("%c", ' ');
+				setcolor(color_background);
+			}
+		}
+
+}
+
+	void CSnake::game_Canvas2()
+	{
+  		clrbox(1,1,78,24,((16 *LightGreen)+LightGreen));
+		//box(1,1,78,24,Green,White,"");
+		clrbox(centerX-1,centerY-1,cols+centerX,rows+centerY,Green);
+		box(centerX-1,centerY-1,cols+centerX,rows+centerY,Green,White,"");
+		setcolor(color_normal);printf("%c",'o');
+		for(i=2;i<=cols;i++)
+		{
+			for(j=2;j<=rows;j++)
+			{
+				gotoxy((centerX-1)+i,(centerY-1)+j);
+				if((centerX+i==centerX)||
+				(centerX+i-1==(centerX+cols))||
+				(centerY+j==centerY)||
+				(centerY+j-1==(rows+centerY)))
+				{
+					setcolor(1);
+					printf("%c", ' ');
+				}
+				else printf("%c", ' ');
+				setcolor(color_background);
+			}
+		}
+
+}
+
+	void CSnake::game_Canvas3()
+	{
+  		clrbox(1,1,78,24,((16 *LightGreen)+LightGreen));
+		//box(1,1,78,24,Green,White,"");
+		clrbox(centerX-1,centerY-1,cols+centerX,rows+centerY,Green);
+		box(centerX-1,centerY-1,cols+centerX,rows+centerY,Green,White,"");
+		setcolor(color_normal);printf("%c",'o');
+		for(i=4;i<=cols;i++)
+		{
+			for(j=4;j<=rows;j++)
+			{
+				gotoxy((centerX-1)+i,(centerY-1)+j);
+				if((centerX+i==centerX)||
+				(centerX+i-1==(centerX+cols))||
+				(centerY+j==centerY)||
+				(centerY+j-1==(rows+centerY)))
+				{
+					setcolor(1);
+					printf("%c", ' ');
+				}
+				else printf("%c", ' ');
 				setcolor(color_background);
 			}
 		}
@@ -159,13 +259,13 @@ void CSnake::Game_Main()
 	void CSnake::Create_Apples()
 	{
 	   setcolor(color_apple);
-	   randomX= ( rand()% cols )+ centerX ;
-	   randomY= ( rand()% rows)+ centerY  ;
-	   for(i=1;i<=snake;i++)
+	   randomX= ( rand()% cols )+ centerX -5 ;
+	   randomY= ( rand()% rows)+ centerY -5  ;
+	   for(i=2;i<=snake;i++)
 	   {
 	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) Create_Apples();
 	   }
-	   gotoxy(randomX,randomY); printf("%d",7);
+	   gotoxy(randomX,randomY); printf("%c",'o');
 	   if(score==1)getch();
 	}
 	/***************************
@@ -197,13 +297,20 @@ void CSnake::Game_Main()
 	         if(i==1)           printf("%d",2);
 	         if((i!=0)&&(i!=1)) printf("%d",3);
 	   }
+
+
+	   setcolor (color_background);
+	}
+
+	void CSnake::Display_state()
+	{
 	   setcolor (color_normal);
 	   gotoxy(centerX-1,centerY+rows+2);
 	   printf("level: %2.d",level);
 	   gotoxy(centerX-1,centerY+rows+2+1);
 	   printf("/ %2.d,eaten /%2.d apples left ",apple,(((rows*cols)/30)+6));
-	   setcolor (color_background);
 	}
+
 	/***************************
 	 *   check Snake Location  *
 	****************************/
@@ -234,6 +341,84 @@ void CSnake::Game_Main()
 	            snakeYLocation[i]=snakeYLocation[i-1];
 	         }
 	         for(i=(prvSnake+1);i<=snake;i++)
+			 {
+	            snakeXLocation[i]=snakeXLocation[i-1];
+	            snakeYLocation[i]=snakeYLocation[i-1];
+	         }
+	      }
+	      if(oldX!=x) snakeXLocation[1]=x;       //
+	      if(oldY!=y) snakeYLocation[1]=y;       //
+	   }
+	   prvSnake=snake;   //
+	   oldX=x; oldY=y;    //
+	}
+
+	void CSnake::check_Snake_Location2()
+	{
+		if (prvSnake>200  || prvSnake<0) prvSnake=5;
+	   if((oldX!=x)||(oldY!=y))
+	   {
+	      if(snake==prvSnake)
+		  {
+
+	         snakeXLocation[0]=snakeXLocation[snake];
+	         snakeYLocation[0]=snakeYLocation[snake];
+	         for(i=snake;i>2;i--)
+			 {
+	            snakeXLocation[i]=snakeXLocation[i-1];
+	            snakeYLocation[i]=snakeYLocation[i-1];
+	         }
+	      }
+	      if(snake!=prvSnake)
+		  {
+
+	         snakeXLocation[0]=snakeXLocation[prvSnake];
+	         snakeYLocation[0]=snakeYLocation[prvSnake];
+	         for(i=prvSnake;i>2;i--)
+			 {
+	            snakeXLocation[i]=snakeXLocation[i-1];
+	            snakeYLocation[i]=snakeYLocation[i-1];
+	         }
+	         for(i=(prvSnake+3);i<=snake;i++)
+			 {
+	            snakeXLocation[i]=snakeXLocation[i-1];
+	            snakeYLocation[i]=snakeYLocation[i-1];
+	         }
+	      }
+	      if(oldX!=x) snakeXLocation[1]=x;       //
+	      if(oldY!=y) snakeYLocation[1]=y;       //
+	   }
+	   prvSnake=snake;   //
+	   oldX=x; oldY=y;    //
+	}
+
+	void CSnake::check_Snake_Location3()
+	{
+		if (prvSnake>200  || prvSnake<0) prvSnake=5;
+	   if((oldX!=x)||(oldY!=y))
+	   {
+	      if(snake==prvSnake)
+		  {
+
+	         snakeXLocation[0]=snakeXLocation[snake];
+	         snakeYLocation[0]=snakeYLocation[snake];
+	         for(i=snake;i>4;i--)
+			 {
+	            snakeXLocation[i]=snakeXLocation[i-1];
+	            snakeYLocation[i]=snakeYLocation[i-1];
+	         }
+	      }
+	      if(snake!=prvSnake)
+		  {
+
+	         snakeXLocation[0]=snakeXLocation[prvSnake];
+	         snakeYLocation[0]=snakeYLocation[prvSnake];
+	         for(i=prvSnake;i>4;i--)
+			 {
+	            snakeXLocation[i]=snakeXLocation[i-1];
+	            snakeYLocation[i]=snakeYLocation[i-1];
+	         }
+	         for(i=(prvSnake+5);i<=snake;i++)
 			 {
 	            snakeXLocation[i]=snakeXLocation[i-1];
 	            snakeYLocation[i]=snakeYLocation[i-1];
@@ -318,21 +503,43 @@ void CSnake::Game_Main()
 	{
 	   if(apple==2)
 	   {
-	      apple=0;
-	      Display();
-	      level++;
-	      if(level>2)
-		  {                          //
-	         score=0;
+		   apple=0;
+		   Display();
+
+		  
+		  if(level==1)
+		  {
+			 score=1;
 	         gotoxy(30,7);
 	         setcolor(color_normal);
-	         printf(" score ");
+	         printf(" score = %d", score);
 	         Sleep(700);
 	         getch();
-	         Game_Main();
-	      }
-	      score=1;
-	      Game_Main();
+	         Game_Main2();
+		  }
+
+		  if(level==2)
+		  {			 
+			 score=2;
+	         gotoxy(30,7);
+	         setcolor(color_normal);
+	         printf(" score = %d", score);
+	         Sleep(700);
+	         getch();
+	         Game_Main3();
+		  }
+		  
+		  if(level==3)
+		  {
+			 score=3;
+	         gotoxy(30,7);
+	         setcolor(color_normal);
+	         printf(" score = %d", score);
+	         Sleep(700);
+	         getch();
+	         Game_Main3();
+
+		  }
 	   }
 	}
 	/***************************
@@ -380,7 +587,7 @@ void CSnake::Game_Main()
 	****************************/
 	void CSnake::Display()
 	{
-	   setcolor(1);
+	   setcolor(0);
 	   for(i=0;i<=70;i++)
 	   {
 	      for(j=0;j<=23;j++)
@@ -390,6 +597,8 @@ void CSnake::Game_Main()
 	      }
 	   }
 	}
+
+
 
 /***************************
  *   setcolor              *
@@ -462,21 +671,21 @@ void CSnake::box(unsigned x,unsigned y,unsigned sx,unsigned sy,unsigned char col
 
 
 	setcolor(col2);
-	gotoxy(x,y);cprintf("?");
-	gotoxy(sx,y);cprintf("?");
-	gotoxy(x,sy);cprintf("?");
-	gotoxy(sx,sy);cprintf("?");
+	gotoxy(x,y);cprintf(" ");
+	gotoxy(sx,y);cprintf(" ");
+	gotoxy(x,sy);cprintf(" ");
+	gotoxy(sx,sy);cprintf(" ");
 
        for (i=x+1;i<sx;i++)
        {
-	gotoxy(i,y);cprintf("?");
-	gotoxy(i,sy);cprintf("?");
+	gotoxy(i,y);cprintf(" ");
+	gotoxy(i,sy);cprintf(" ");
 	}
 
 	for (i=y+1;i<sy;i++)
 	{
-	gotoxy(x,i);cprintf("?");
-	gotoxy(sx,i);cprintf("?");
+	gotoxy(x,i);cprintf(" ");
+	gotoxy(sx,i);cprintf(" ");
 	}
 	setcolor(col);
 	gotoxy(x+j,y);cprintf(text_);

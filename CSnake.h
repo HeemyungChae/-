@@ -83,6 +83,8 @@ class CSnake
 	   void Remove_Apple();
 	   void Game_Over();
 	   void Display();
+	   void Game_Main2();
+	   void game_Canvas2();
 
 		void gotoxy(int x, int y);
 		void clrscr();
