@@ -1,3 +1,16 @@
+/* 
+ *
+ *파일 이름 : CSnake.cpp
+ 
+ 작성자 : https://www.codeproject.com/Articles/85531/Snake-Game-in-a-Win-Console
+ 
+ 목적: 뱀이 벽과 충돌하지 않고 사과를 먹는 게임
+
+ 2017. 05. 25 수정사항 : 배경과 사과 아스키코드 수정 - soyoungJeong
+ 2017. 05. 31 수정사항 : 사과를 4개 먹으면 다음 스테이지로 넘어가고 스테이지가 넘어가면 공간이 작아짐
+              에러사항 : 스테이지가 작아지면 사과 위치와 충돌 에러 생김  - soyoungJeong */
+
+
 
 
 #include "CSnake.h"
@@ -501,7 +514,7 @@ void CSnake::Game_Main3()
 	****************************/
 	void CSnake::Remove_Apple()
 	{
-	   if(apple==2)
+	   if(apple==4)
 	   {
 		   apple=0;
 		   Display();
