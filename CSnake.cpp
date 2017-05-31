@@ -5,12 +5,10 @@
  작성자 : https://www.codeproject.com/Articles/85531/Snake-Game-in-a-Win-Console
  
  목적: 뱀이 벽과 충돌하지 않고 사과를 먹는 게임
-
  2017. 05. 25 수정사항 : 배경과 사과 아스키코드 수정 - soyoungJeong
  2017. 05. 31 수정사항 : 사과를 4개 먹으면 다음 스테이지로 넘어가고 스테이지가 넘어가면 공간이 작아짐
-              에러사항 : 스테이지가 작아지면 사과 위치와 충돌 에러 생김  - soyoungJeong */
-
-
+              에러사항 : 스테이지가 작아지면 사과 위치와 충돌 에러 생김  - soyoungJeong
+ 2017. 05. 31 수정사항 : 충돌 에러 해결 - soyoungJeong */
 
 
 #include "CSnake.h"
@@ -92,13 +90,13 @@ void CSnake::Game_Main2()
 	   keyPressed();
       check_collision();
       Check_Apples();
-      check_Snake_Location2();
+      check_Snake_Location();
       Display_snake();
 	  Display_state();
 	  CalclateFramesPerSecond();
       ;
 
-   }while((c!=27) && (x!=centerX+(cols)) && (x!=centerX-1) && (y!=centerY+(rows)) && (y!=centerY-1));Game_Over();
+   }while((c!=27) && (x!=centerX+(cols)) && (x!=centerX) && (y!=centerY+(rows)) && (y!=centerY));Game_Over();
 
 }
 
@@ -115,13 +113,13 @@ void CSnake::Game_Main3()
 	   keyPressed();
       check_collision();
       Check_Apples();
-      check_Snake_Location3();
+      check_Snake_Location();
       Display_snake();
 	  Display_state();
 	  CalclateFramesPerSecond();
       ;
 
-   }while((c!=27) && (x!=centerX+(cols)) && (x!=centerX-1) && (y!=centerY+(rows)) && (y!=centerY-1));Game_Over();
+   }while((c!=27) && (x!=centerX+(cols)+3) && (x!=centerX+1) && (y!=centerY+(rows)) && (y!=centerY+1));Game_Over();
 
 }
 	//**********************************************
@@ -272,9 +270,9 @@ void CSnake::Game_Main3()
 	void CSnake::Create_Apples()
 	{
 	   setcolor(color_apple);
-	   randomX= ( rand()% cols )+ centerX -5 ;
-	   randomY= ( rand()% rows)+ centerY -5  ;
-	   for(i=2;i<=snake;i++)
+	   randomX= ( rand()% cols )+ centerX ;
+	   randomY= ( rand()% rows)+ centerY  ;
+	   for(i=1;i<=snake;i++)
 	   {
 	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) Create_Apples();
 	   }
@@ -366,84 +364,6 @@ void CSnake::Game_Main3()
 	   oldX=x; oldY=y;    //
 	}
 
-	void CSnake::check_Snake_Location2()
-	{
-		if (prvSnake>200  || prvSnake<0) prvSnake=5;
-	   if((oldX!=x)||(oldY!=y))
-	   {
-	      if(snake==prvSnake)
-		  {
-
-	         snakeXLocation[0]=snakeXLocation[snake];
-	         snakeYLocation[0]=snakeYLocation[snake];
-	         for(i=snake;i>2;i--)
-			 {
-	            snakeXLocation[i]=snakeXLocation[i-1];
-	            snakeYLocation[i]=snakeYLocation[i-1];
-	         }
-	      }
-	      if(snake!=prvSnake)
-		  {
-
-	         snakeXLocation[0]=snakeXLocation[prvSnake];
-	         snakeYLocation[0]=snakeYLocation[prvSnake];
-	         for(i=prvSnake;i>2;i--)
-			 {
-	            snakeXLocation[i]=snakeXLocation[i-1];
-	            snakeYLocation[i]=snakeYLocation[i-1];
-	         }
-	         for(i=(prvSnake+3);i<=snake;i++)
-			 {
-	            snakeXLocation[i]=snakeXLocation[i-1];
-	            snakeYLocation[i]=snakeYLocation[i-1];
-	         }
-	      }
-	      if(oldX!=x) snakeXLocation[1]=x;       //
-	      if(oldY!=y) snakeYLocation[1]=y;       //
-	   }
-	   prvSnake=snake;   //
-	   oldX=x; oldY=y;    //
-	}
-
-	void CSnake::check_Snake_Location3()
-	{
-		if (prvSnake>200  || prvSnake<0) prvSnake=5;
-	   if((oldX!=x)||(oldY!=y))
-	   {
-	      if(snake==prvSnake)
-		  {
-
-	         snakeXLocation[0]=snakeXLocation[snake];
-	         snakeYLocation[0]=snakeYLocation[snake];
-	         for(i=snake;i>4;i--)
-			 {
-	            snakeXLocation[i]=snakeXLocation[i-1];
-	            snakeYLocation[i]=snakeYLocation[i-1];
-	         }
-	      }
-	      if(snake!=prvSnake)
-		  {
-
-	         snakeXLocation[0]=snakeXLocation[prvSnake];
-	         snakeYLocation[0]=snakeYLocation[prvSnake];
-	         for(i=prvSnake;i>4;i--)
-			 {
-	            snakeXLocation[i]=snakeXLocation[i-1];
-	            snakeYLocation[i]=snakeYLocation[i-1];
-	         }
-	         for(i=(prvSnake+5);i<=snake;i++)
-			 {
-	            snakeXLocation[i]=snakeXLocation[i-1];
-	            snakeYLocation[i]=snakeYLocation[i-1];
-	         }
-	      }
-	      if(oldX!=x) snakeXLocation[1]=x;       //
-	      if(oldY!=y) snakeYLocation[1]=y;       //
-	   }
-	   prvSnake=snake;   //
-	   oldX=x; oldY=y;    //
-	}
-
 	 /***************************
 	 *   keypressed             *
 	****************************/
@@ -514,7 +434,7 @@ void CSnake::Game_Main3()
 	****************************/
 	void CSnake::Remove_Apple()
 	{
-	   if(apple==4)
+	   if(apple==2)
 	   {
 		   apple=0;
 		   Display();
