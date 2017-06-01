@@ -36,7 +36,9 @@
 		color_border=49;
 		color_apple=44;
 		color_normal=15;
-		color_snake=2;  //  colors
+		color_snake=2;
+			color_superapple=45;
+		color_bomb=46;//  colors
 		snake_Enlongment=5;
 		apple=0;      //  apple
 		if (prvSnake>200  || prvSnake<0) prvSnake=5;
@@ -60,6 +62,8 @@ void CSnake::Game_Main()
     Settings();
 	game_Canvas();
 	Create_Apples();
+	Create_SuperApples();
+	Create_Bombs();
 	initsnake();
 	if (prvSnake>200  || prvSnake<0) prvSnake=5;
 
@@ -67,6 +71,8 @@ void CSnake::Game_Main()
 	   keyPressed();
       check_collision();
       Check_Apples();
+	   Check_SuperApples();
+	  Check_Bombs();
       check_Snake_Location();
       Display_snake();
 	  Display_state();
@@ -83,6 +89,8 @@ void CSnake::Game_Main2()
     Settings();
 	game_Canvas2();
 	Create_Apples();
+	Create_SuperApples();
+	Create_Bombs();
 	initsnake();
 	if (prvSnake>200  || prvSnake<0) prvSnake=5;
 
@@ -90,6 +98,8 @@ void CSnake::Game_Main2()
 	   keyPressed();
       check_collision();
       Check_Apples();
+	   Check_SuperApples();
+	  Check_Bombs();
       check_Snake_Location();
       Display_snake();
 	  Display_state();
@@ -106,6 +116,8 @@ void CSnake::Game_Main3()
     Settings();
 	game_Canvas3();
 	Create_Apples();
+	Create_SuperApples();
+	Create_Bombs();
 	initsnake();
 	if (prvSnake>200  || prvSnake<0) prvSnake=5;
 
@@ -113,6 +125,8 @@ void CSnake::Game_Main3()
 	   keyPressed();
       check_collision();
       Check_Apples();
+	   Check_SuperApples();
+	  Check_Bombs();
       check_Snake_Location();
       Display_snake();
 	  Display_state();
@@ -279,6 +293,42 @@ void CSnake::Game_Main3()
 	   gotoxy(randomX,randomY); printf("%c",'o');
 	   if(score==1)getch();
 	}
+
+	/***************************
+	 *   create superapples         *
+	****************************/
+	void CSnake::Create_SuperApples()
+	{
+		setcolor(color_superapple);
+	   randomX= ( rand()% cols +1)+ centerX ;
+	   randomY= ( rand()% rows+1)+ centerY  ;
+	   for(i=1;i<=snake;i++)
+	   {
+	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+			  Create_SuperApples();
+	   }
+	   gotoxy(randomX,randomY); printf("%c",'o');
+	   if(score==1)getch();
+	}
+	/***************************
+	 *   create bombs         *
+	****************************/
+
+	void CSnake::Create_Bombs()
+	{
+		setcolor(color_bomb);
+	   randomX= ( rand()% cols +2)+ centerX ;
+	   randomY= ( rand()% rows+2)+ centerY  ;
+	   for(i=1;i<=snake;i++)
+	   {
+	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+			  Create_Bombs();
+	   }
+	   gotoxy(randomX,randomY); printf("%c",'o');
+	   if(score==1)getch();
+
+	}
+
 	/***************************
 	 *   check apples          *
 	****************************/
@@ -290,6 +340,32 @@ void CSnake::Game_Main3()
 	       Remove_Apple();
 	       snake+=snake_Enlongment;
 	       Create_Apples();
+	    }
+	}
+	/***************************
+	 *   check superapples          *
+	****************************/
+	void CSnake::Check_SuperApples()
+	{
+		if((snakeXLocation[1]==randomX)&&(snakeYLocation[1]==randomY))
+		{
+	       apple++;
+	       Remove_Apple();
+	       snake+=snake_Enlongment+1;
+	       Create_SuperApples();
+	    }
+	}
+	/***************************
+	 *   check bombs         *
+	****************************/
+	void CSnake::Check_Bombs()
+	{
+		if((snakeXLocation[1]==randomX)&&(snakeYLocation[1]==randomY))
+		{
+	       apple++;
+	       Remove_Apple();
+	       snake-=snake_Enlongment;
+	       Create_Bombs();
 	    }
 	}
 	/***************************
