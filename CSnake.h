@@ -85,6 +85,9 @@ class CSnake
 	   void Display();
 	   void Game_Main2();
 	   void game_Canvas2();
+	   void Game_Main3();
+	   void game_Canvas3();
+	   void Display_state();
 
 		void gotoxy(int x, int y);
 		void clrscr();
