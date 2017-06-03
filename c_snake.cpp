@@ -16,6 +16,7 @@
  2017. 06. 02 수정사항 : life 기능 추가 -sanhayo
  2017. 06. 02 수정사항 : 무적 아이템 추가 -heemyung
  
+
  */
 
 
@@ -50,10 +51,9 @@
 		//color
 		snake_Enlongment=5;
 		apple=0;      //  apple
-		item = 0;
 		if (prvSnake>200  || prvSnake<0) prvSnake=5;
-		centerA=centerX=39-(cols/2);
-		centerB=centerY=14-(rows/2);
+		centerX=39-(cols/2);
+		centerY=14-(rows/2);
 
         Game_Main();
 
@@ -83,7 +83,6 @@ void CSnake::Game_Main()
       Check_Apples();
 	   Check_SuperApples();
 	  Check_Bombs();
-	  Check_item();
       check_Snake_Location();
       Display_snake();
 	  Display_state();
@@ -111,8 +110,7 @@ void CSnake::Game_Main2()
       Check_Apples();
 	   Check_SuperApples();
 	  Check_Bombs();
-	  Check_item();
-	  check_Snake_Location();
+      check_Snake_Location();
       Display_snake();
 	  Display_state();
 	  CalclateFramesPerSecond();
@@ -139,8 +137,7 @@ void CSnake::Game_Main3()
       Check_Apples();
 	   Check_SuperApples();
 	  Check_Bombs();
-	  Check_item();
-	  check_Snake_Location();
+      check_Snake_Location();
       Display_snake();
 	  Display_state();
 	  CalclateFramesPerSecond();
@@ -157,8 +154,6 @@ void CSnake::Game_Main3()
 	{
 		 // clrscr();
 		life = 3; //목숨 3개로 초기화
-		flag = 1;
-		count = 1;
 		setcolor(color_normal);
 		rows=15;
 		cols=60;
@@ -325,7 +320,6 @@ void CSnake::Game_Main3()
 	****************************/
 	void CSnake::Create_Apples()
 	{
-		Create_item();
 	   setcolor(color_apple);
 	   randomX= ( rand()% cols )+ centerX ;
 	   randomY= ( rand()% rows)+ centerY  ;
@@ -356,29 +350,6 @@ void CSnake::Game_Main3()
 	/***************************
 	 *   create bombs         *
 	****************************/
-	void CSnake::Create_item() {
-		flag = 0;
-		setcolor(color_item);
-		randomA = (rand() % cols) + centerA;
-		randomB = (rand() % rows) + centerB;
-		for (i = 1; i <= snake; i++)
-		{
-			if ((randomA == snakeXLocation[i]) && (randomB == snakeYLocation[i])) Create_item();
-
-		}
-		gotoxy(randomA, randomB);
-		printf("%c", 'Z');
-	}
-
-
-	void CSnake::Check_item() {
-		if ((snakeXLocation[1] == randomA) && (snakeYLocation[1] == randomB))
-		{
-			flag = 1;
-
-		}
-
-	}
 
 	void CSnake::Create_Bombs()
 	{
@@ -907,6 +878,3 @@ void CSnake::CalclateFramesPerSecond()
 		g_speed=60/fps;
 	}
 }
-
-
-
