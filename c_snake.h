@@ -46,20 +46,19 @@ class CSnake
 
 		int snakeXLocation[1000];
 		int snakeYLocation[1000];
-		int color_background, color_border  , color_apple , color_normal , color_snake , color_superapple, color_bomb ;  //  colors
+		int color_background, color_border  , color_apple , color_normal , color_snake , color_superapple, color_bomb , color_item;  //  colors
 		unsigned char  snake, prvSnake, snake_Enlongment ;
-		int randomX, randomY, apple, superapple, bomb ;       //  apple
+		int randomX, randomY,randomA,randomB, apple, superapple, bomb ,life ;      //  apple
 		int level ;
-		int score ;
+		int score,flag,count;
 		char playAgain;
-		int life;
 
 
 
 		int i, j;
-		int centerX, centerY;         //
+		int centerX, centerY,centerA,centerB;         //
 		int x, y, oldX, oldY;
-		int rows, cols;
+		int rows, cols,item;
 		char c;
 		int direction, difficulty;
 
@@ -88,6 +87,8 @@ class CSnake
 	   void Create_Apples3();
 	   void Create_SuperApples3();
 	   void Create_Bombs3();
+	   void Create_item();
+	   void Check_item();
 	   void Check_Apples();
 	    void Check_SuperApples();
 	   void Check_Bombs();
