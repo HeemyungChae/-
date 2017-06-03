@@ -1,5 +1,6 @@
 /* 
  *
+<<<<<<< HEAD
  *파일 이름 : CSnake.cpp
  
  작성자 : https://www.codeproject.com/Articles/85531/Snake-Game-in-a-Win-Console
@@ -187,6 +188,7 @@ void CSnake::Game_Main3()
 				(centerY+j==centerY)||
 				(centerY+j-1==(rows+centerY)))
 				{
+<<<<<<< HEAD
 					setcolor(1);
 					printf("%c", ' ');
 				}
@@ -245,6 +247,12 @@ void CSnake::Game_Main3()
 					printf("%c", ' ');
 				}
 				else printf("%c", ' ');
+=======
+					setcolor(color_border);
+					printf("%c",' ');
+				}
+				else printf("%c",' ');
+>>>>>>> first
 				setcolor(color_background);
 			}
 		}
@@ -295,6 +303,7 @@ void CSnake::Game_Main3()
 	   {
 	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) Create_Apples();
 	   }
+<<<<<<< HEAD
 	   gotoxy(randomX,randomY); printf("%c",'o');
 	   if(score==1)getch();
 	}
@@ -364,6 +373,9 @@ void CSnake::Game_Main3()
 			  Create_SuperApples();
 	   }
 	   gotoxy(randomX,randomY); printf("%c",'o');
+=======
+	   gotoxy(randomX,randomY); printf("%c",'O');
+>>>>>>> first
 	   if(score==1)getch();
 	}
 	/***************************
