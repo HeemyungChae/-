@@ -6,15 +6,19 @@
  
  목적: 뱀이 벽과 충돌하지 않고 사과를 먹는 게임
  2017. 05. 25 수정사항 : 배경과 사과 아스키코드 수정 - soyoungJeong
+ 2017. 05. 30 수정사항 : life 기능 추가 -sanhayo
  2017. 05. 31 수정사항 : 사과를 4개 먹으면 다음 스테이지로 넘어가고 스테이지가 넘어가면 공간이 작아짐
               에러사항 : 스테이지가 작아지면 사과 위치와 충돌 에러 생김  - soyoungJeong
  2017. 05. 31 수정사항 : 충돌 에러 해결 - soyoungJeong
  2017. 06. 01 수정사항 : 슈퍼사과와 폭탄 추가 - zoe0526
-			  에러사항 : 랜덤생성 오류 - zoe0526 
+			  에러사항 : 랜덤생성 에러 - zoe0526 
  2017. 06. 02 수정사항 : 디자인 수정 -zoe0526
 						 공간 밖 아이템 에러 해결 -zoe0526 
- 2017. 06. 02 수정사항 : life 기능 추가 -sanhayo
  2017. 06. 02 수정사항 : 무적 아이템 추가 -heemyung
+ 2017. 06. 04 수정사항 : 주석 수정
+                         아이템 에러(폭탄, 슈퍼사과를 먹었을 때 먹은 사과 개수가 올라가는 것) 해결
+              에러사항 : 무적 아이템 생성 에러
+			             스테이지2, 3에는 목숨 적용X - soyoungJeong
  
  */
 
@@ -61,10 +65,8 @@
     }
 
 	//**********************************************
-	//**                                          **
+	//**  Game_Mane stage1   **
 	//**********************************************
-
-
 
 void CSnake::Game_Main()
 {
@@ -93,7 +95,9 @@ void CSnake::Game_Main()
    }while(life>=1);Game_Over();
 
 }
-
+	//**********************************************
+	//**  Game_Mane stage2   **
+	//**********************************************
 void CSnake::Game_Main2()
 {
 	level=2;
@@ -121,6 +125,10 @@ void CSnake::Game_Main2()
    }while((c!=27) && (x!=centerX+(cols)) && (x!=centerX) && (y!=centerY+(rows)) && (y!=centerY));Game_Over();
 
 }
+
+	//**********************************************
+	//**  Game_Mane stage3   **
+	//**********************************************
 
 void CSnake::Game_Main3()
 {
@@ -150,7 +158,7 @@ void CSnake::Game_Main3()
 
 }
 	//**********************************************
-	//**                                          **
+	//** Game Settings                **
 	//**********************************************
 
 	void CSnake::Settings()
@@ -179,7 +187,7 @@ void CSnake::Game_Main3()
 
 	}
 	/***************************
-	 *   game_Canvas                  *
+	 *   game_Canvas  stage1    *
 	****************************/
 	void CSnake::game_Canvas()
 	{
@@ -208,6 +216,9 @@ void CSnake::Game_Main3()
 
 }
 
+	/***************************
+	 *   game_Canvas  stage2    *
+	****************************/
 	void CSnake::game_Canvas2()
 	{
   		clrbox(1,1,78,24,((16 *LightGreen)+LightGreen));
@@ -235,6 +246,9 @@ void CSnake::Game_Main3()
 
 }
 
+	/***************************
+	 *   game_Canvas  stage3    *
+	****************************/
 	void CSnake::game_Canvas3()
 	{
   		clrbox(1,1,78,24,((16 *LightGreen)+LightGreen));
@@ -284,6 +298,7 @@ void CSnake::Game_Main3()
 	   direction=1;          //
 	   j=0;
 	}
+
 	/***************************
 	 *   check_collision             *
 	****************************/
@@ -298,6 +313,8 @@ void CSnake::Game_Main3()
 		game_Canvas();
 		initsnake();
 		Create_Apples();
+		Create_Bombs();
+		Create_SuperApples();
 		if (prvSnake>200  || prvSnake<0) prvSnake=5;
 		Display_snake();
 
@@ -320,9 +337,11 @@ void CSnake::Game_Main3()
 		}
 	}
 	}
-	/***************************
-	 *   create apples         *
-	****************************/
+
+
+	/***********************************
+	 *   create apples  stage1        *
+	***********************************/
 	void CSnake::Create_Apples()
 	{
 		Create_item();
@@ -337,28 +356,30 @@ void CSnake::Game_Main3()
 	   if(score==1)getch();
 	}
 
-	/***************************
-	 *   create superapples         *
-	****************************/
+
+	/***********************************
+	 *   create superapples  stage1        *
+	***********************************/
 	void CSnake::Create_SuperApples()
 	{
 		setcolor(color_superapple);
-	   randomX= ( rand()% cols )+ centerX ;
-	   randomY= ( rand()% rows)+ centerY  ;
+	   randomE= ( rand()% cols )+ centerX ;
+	   randomF= ( rand()% rows)+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
-	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+	      if((randomE==snakeXLocation[i])&&(randomF==snakeYLocation[i])) 
 			  Create_SuperApples();
 	   }
-	   gotoxy(randomX,randomY); printf("%c",'o');
+	   gotoxy(randomE,randomF); printf("%c",'o');
 	   if(score==1)getch();
 	}
-	/***************************
-	 *   create bombs         *
-	****************************/
+
+	/***********************************
+	 *   create item  stage1        *
+	***********************************/
 	void CSnake::Create_item() {
 		flag = 0;
-		setcolor(color_item);
+		setcolor(1);
 		randomA = (rand() % cols) + centerA;
 		randomB = (rand() % rows) + centerB;
 		for (i = 1; i <= snake; i++)
@@ -370,39 +391,32 @@ void CSnake::Game_Main3()
 		printf("%c", 'Z');
 	}
 
-
-	void CSnake::Check_item() {
-		if ((snakeXLocation[1] == randomA) && (snakeYLocation[1] == randomB))
-		{
-			flag = 1;
-
-		}
-
-	}
-
+	/***********************************
+	 *   create bombs  stage1        *
+	***********************************/
 	void CSnake::Create_Bombs()
 	{
 		setcolor(color_bomb);
-	   randomX= ( rand()% cols )+ centerX ;
-	   randomY= ( rand()% rows)+ centerY  ;
+	   randomC= ( rand()% cols )+ centerX ;
+	   randomD= ( rand()% rows)+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
-	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+	      if((randomC==snakeXLocation[i])&&(randomD==snakeYLocation[i])) 
 			  Create_Bombs();
 	   }
-	   gotoxy(randomX,randomY); printf("%c",'o');
+	   gotoxy(randomC,randomD); printf("%c",'o');
 	   if(score==1)getch();
 
 	}
 
-	/***************************
-	 *   create apples         *
-	****************************/
+	/***********************************
+	 *   create apples  stage2        *
+	***********************************/
 	void CSnake::Create_Apples2()
 	{
 	   setcolor(color_apple);
-	   randomX= ( rand()% (cols-1) )+ centerX ;
-	   randomY= ( rand()% (rows-1))+ centerY  ;
+	   randomX= ( rand()% (cols-2) )+ centerX ;
+	   randomY= ( rand()% (rows-2))+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
 	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) Create_Apples();
@@ -411,49 +425,51 @@ void CSnake::Game_Main3()
 	   if(score==1)getch();
 	}
 
-	/***************************
-	 *   create superapples         *
-	****************************/
+	/***********************************
+	 *   create superapples  stage2        *
+	***********************************/
 	void CSnake::Create_SuperApples2()
 	{
 		setcolor(color_superapple);
-	   randomX= ( rand()% (cols-1) )+ centerX ;
-	   randomY= ( rand()% (rows-1))+ centerY  ;
+	   randomE= ( rand()% (cols-2) )+ centerX ;
+	   randomF= ( rand()% (rows-2))+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
-	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+	      if((randomE==snakeXLocation[i])&&(randomF==snakeYLocation[i])) 
 			  Create_SuperApples();
 	   }
-	   gotoxy(randomX,randomY); printf("%c",'o');
+	   gotoxy(randomE,randomF); printf("%c",'o');
 	   if(score==1)getch();
 	}
-	/***************************
-	 *   create bombs         *
-	****************************/
+
+	/***********************************
+	 *   create bombs  stage2        *
+	***********************************/
 
 	void CSnake::Create_Bombs2()
 	{
 		setcolor(color_bomb);
-	   randomX= ( rand()% (cols-1) )+ centerX ;
-	   randomY= ( rand()% (rows-1))+ centerY  ;
+	   randomC= ( rand()% (cols-2) )+ centerX ;
+	   randomD= ( rand()% (rows-2))+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
-	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+	      if((randomC==snakeXLocation[i])&&(randomD==snakeYLocation[i])) 
 			 Create_Bombs();
 	   }
-	   gotoxy(randomX,randomY); printf("%c",'o');
+	   gotoxy(randomC,randomD); printf("%c",'o');
 	   if(score==1)getch();
 
 	}
 
-		/***************************
-	 *   create apples         *
-	****************************/
+
+	/***********************************
+	 *   create apples  stage3        *
+	***********************************/
 	void CSnake::Create_Apples3()
 	{
 	   setcolor(color_apple);
-	   randomX= ( rand()% (cols-2) )+ centerX ;
-	   randomY= ( rand()% (rows-2))+ centerY  ;
+	   randomX= ( rand()% (cols-4) )+ centerX ;
+	   randomY= ( rand()% (rows-4))+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
 	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) Create_Apples();
@@ -462,37 +478,39 @@ void CSnake::Game_Main3()
 	   if(score==1)getch();
 	}
 
-	/***************************
-	 *   create superapples         *
-	****************************/
+
+	/***********************************
+	 *   create superapples  stage3        *
+	***********************************/
 	void CSnake::Create_SuperApples3()
 	{
 		setcolor(color_superapple);
-	   randomX= ( rand()% (cols-2) )+ centerX ;
-	   randomY= ( rand()% (rows-2))+ centerY  ;
+	   randomE= ( rand()% (cols-4) )+ centerX ;
+	   randomF= ( rand()% (rows-4))+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
-	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+	      if((randomE==snakeXLocation[i])&&(randomF==snakeYLocation[i])) 
 			  Create_SuperApples();
 	   }
-	   gotoxy(randomX,randomY); printf("%c",'o');
+	   gotoxy(randomE,randomF); printf("%c",'o');
 	   if(score==1)getch();
 	}
-	/***************************
-	 *   create bombs         *
-	****************************/
+
+	/***********************************
+	 *   create bombs  stage3        *
+	***********************************/
 
 	void CSnake::Create_Bombs3()
 	{
 		setcolor(color_bomb);
-	   randomX= ( rand()% (cols-2) )+ centerX ;
-	   randomY= ( rand()% (rows-2))+ centerY  ;
+	   randomC= ( rand()% (cols-4) )+ centerX ;
+	   randomD= ( rand()% (rows-4))+ centerY  ;
 	   for(i=1;i<=snake;i++)
 	   {
-	      if((randomX==snakeXLocation[i])&&(randomY==snakeYLocation[i])) 
+	      if((randomC==snakeXLocation[i])&&(randomD==snakeYLocation[i])) 
 			 Create_Bombs();
 	   }
-	   gotoxy(randomX,randomY); printf("%c",'o');
+	   gotoxy(randomC,randomD); printf("%c",'o');
 	   if(score==1)getch();
 
 	}
@@ -516,9 +534,8 @@ void CSnake::Game_Main3()
 	****************************/
 	void CSnake::Check_SuperApples()
 	{
-		if((snakeXLocation[1]==randomX)&&(snakeYLocation[1]==randomY))
+		if((snakeXLocation[1]==randomE)&&(snakeYLocation[1]==randomF))
 		{
-	       apple++;
 	       Remove_Apple();
 	       snake+=snake_Enlongment+1;
 	       Create_SuperApples();
@@ -529,14 +546,26 @@ void CSnake::Game_Main3()
 	****************************/
 	void CSnake::Check_Bombs()
 	{
-		if((snakeXLocation[1]==randomX)&&(snakeYLocation[1]==randomY))
+		if((snakeXLocation[1]==randomC)&&(snakeYLocation[1]==randomD))
 		{
-	       apple++;
 	       Remove_Apple();
+	       Create_Apples();
 	       snake-=snake_Enlongment;
-	       Create_Bombs();
 	    }
 	}
+
+	/***************************
+	 *   check item         *
+	****************************/
+	void CSnake::Check_item() {
+		if ((snakeXLocation[1] == randomA) && (snakeYLocation[1] == randomB))
+		{
+			flag = 1;
+
+		}
+
+	}
+
 	/***************************
 	 *   display snake         *
 	****************************/
@@ -558,6 +587,9 @@ void CSnake::Game_Main3()
 	   setcolor (color_background);
 	}
 
+	/***************************
+	 *   display state         *
+	****************************/
 	void CSnake::Display_state()
 	{
 	   setcolor (color_normal);
@@ -731,9 +763,9 @@ void CSnake::Game_Main3()
 		clrbox(10,8,70,16,31);
 		box(10,8,70,16,31,31,"Game Over ");
 
-		gotoxy(18,10);cprintf("  ");
-		gotoxy(18,11);cprintf("The snake has hit an obstacle");
-		gotoxy(18,14);cprintf("");
+		gotoxy(18,10);printf("  ");
+		gotoxy(18,11);printf("The snake has hit an obstacle");
+		gotoxy(18,14);printf("");
 		gotoxy(18,13);printf("play Again? (y/n)");
 
 
@@ -787,6 +819,7 @@ void CSnake::setcolor(WORD color)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),color);
 	return;
 }
+
 /***************************
  *   clear screen          *
 ****************************/
@@ -817,11 +850,10 @@ void CSnake::gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 	return;
 }
+	
 	//**********************************************
-	//**                                          **
+	//**   clrbox                           **
 	//**********************************************
-
-
 void CSnake::clrbox(unsigned char x1,unsigned char y1,unsigned char x2,unsigned char y2,unsigned char bkcol)
 { int x,y;
 
@@ -836,7 +868,7 @@ void CSnake::clrbox(unsigned char x1,unsigned char y1,unsigned char x2,unsigned 
 	}
 }
 	//**********************************************
-	//**                                          **
+	//**  box                              **
 	//**********************************************
 
 void CSnake::box(unsigned x,unsigned y,unsigned sx,unsigned sy,unsigned char col,unsigned char col2,char text_[])
@@ -872,11 +904,11 @@ void CSnake::box(unsigned x,unsigned y,unsigned sx,unsigned sy,unsigned char col
 
     }
 }
-	//**********************************************
-	//**                                          **
-	//**********************************************
 
 
+	//**********************************************
+	//**  putbox                           **
+	//**********************************************
 void CSnake::putbox(unsigned x1,unsigned y1,unsigned x2,unsigned y2,unsigned char texcol,unsigned char frcol,unsigned char bkgcol,char bheader[])
 {
      clrbox(x1,y1,x2,y2,bkgcol);
@@ -884,7 +916,9 @@ void CSnake::putbox(unsigned x1,unsigned y1,unsigned x2,unsigned y2,unsigned cha
 
 }
 
-
+	//**********************************************
+	//**  CalclateFramesPerSecond         **
+	//**********************************************
 void CSnake::CalclateFramesPerSecond()
 {
 	currTick=GetTickCount();

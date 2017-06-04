@@ -48,7 +48,7 @@ class CSnake
 		int snakeYLocation[1000];
 		int color_background, color_border  , color_apple , color_normal , color_snake , color_superapple, color_bomb , color_item;  //  colors
 		unsigned char  snake, prvSnake, snake_Enlongment ;
-		int randomX, randomY,randomA,randomB, apple, superapple, bomb ,life ;      //  apple
+		int randomX, randomY,randomA,randomB, randomC,randomD, randomE, randomF, apple, superapple, bomb ,life ;      //  apple
 		int level ;
 		int score,flag,count;
 		char playAgain;
